@@ -1,0 +1,147 @@
+> use student
+switched to db student
+> db
+student
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.createCollection(“Student”);
+uncaught exception: SyntaxError: illegal character :
+@(shell):1:20
+> db.createCollection(Student);
+uncaught exception: ReferenceError: Student is not defined :
+@(shell):1:1
+> db.createCollection("Student");
+{ "ok" : 1 }
+> db.createCollection("Faculty");
+{ "ok" : 1 }
+> db.createCollection("COE");
+{ "ok" : 1 }
+> db.createCollection("Library");
+{ "ok" : 1 }
+> db.createCollection("Admission");
+{ "ok" : 1 }
+> show dbs
+admin    0.000GB
+config   0.000GB
+local    0.000GB
+student  0.000GB
+> db.student.insert({Roll: 10, Name: "Shreyash", age: 21, contact: "2243422332", email: "sa@gmail.com"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({Roll: 11, Name: "Emilia", age: 20, contact: "4443422332", email: "em@gmail.com"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({Roll: 12, Name: "Yukino", age: 20, contact: "1143422332", email: "yuki@gmail.com"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({Roll: 13, Name: "Kazuma", age: 21, contact: "9943422332", email: "@gmail.com"})
+WriteResult({ "nInserted" : 1 })
+> db.student.find()
+{ "_id" : ObjectId("607808ca7ed304f603d2698e"), "Roll" : 10, "Name" : "Shreyash", "age" : 21, "contact" : "2243422332", "email" : "sa@gmail.com" }
+{ "_id" : ObjectId("607808ed7ed304f603d2698f"), "Roll" : 11, "Name" : "Emilia", "age" : 20, "contact" : "4443422332", "email" : "em@gmail.com" }
+{ "_id" : ObjectId("6078091a7ed304f603d26990"), "Roll" : 12, "Name" : "Yukino", "age" : 20, "contact" : "1143422332", "email" : "yuki@gmail.com" }
+{ "_id" : ObjectId("6078095d7ed304f603d26991"), "Roll" : 13, "Name" : "Kazuma", "age" : 21, "contact" : "9943422332", "email" : "@gmail.com" }
+> db.student.update({Roll:10}, {$set: {email: "shreyash@gmail.com"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.update({Roll:11}, {$set: {Name: "Emilia-tan"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.find()
+{ "_id" : ObjectId("607808ca7ed304f603d2698e"), "Roll" : 10, "Name" : "Shreyash", "age" : 21, "contact" : "2243422332", "email" : "shreyash@gmail.com" }
+{ "_id" : ObjectId("607808ed7ed304f603d2698f"), "Roll" : 11, "Name" : "Emilia-tan", "age" : 20, "contact" : "4443422332", "email" : "em@gmail.com" }
+{ "_id" : ObjectId("6078091a7ed304f603d26990"), "Roll" : 12, "Name" : "Yukino", "age" : 20, "contact" : "1143422332", "email" : "yuki@gmail.com" }
+{ "_id" : ObjectId("6078095d7ed304f603d26991"), "Roll" : 13, "Name" : "Kazuma", "age" : 21, "contact" : "9943422332", "email" : "@gmail.com" }
+> db.createCollection("College Festival");
+{ "ok" : 1 }
+> show collections
+Admission
+COE
+College Festival
+Faculty
+Library
+Student
+student
+> db.Student.find()
+> db.COE.find()
+> db.Student.drop()
+true
+> show collections
+Admission
+COE
+College Festival
+Faculty
+Library
+student
+> db.COE.insert({Roll: 10, Name: "Shreyash", age: 21, Subject1:100, Subject2:100, Subject3:100, Grade:"S" })
+WriteResult({ "nInserted" : 1 })
+> db.COE.insert({Roll: 10, Name: "Emilia-tan", age: 20, Subject1:100, Subject2:100, Subject3:100, Grade:"S" })
+WriteResult({ "nInserted" : 1 })
+> db.COE.insert({Roll: 10, Name: "Yukino", age: 20, Subject1:100, Subject2:100, Subject3:100, Grade:"S" })
+WriteResult({ "nInserted" : 1 })
+> db.COE.insert({Roll: 13, Name: "Kazuma", age: 21, Subject1:60, Subject2:50, Subject3:40, Grade:"D" })
+WriteResult({ "nInserted" : 1 })
+> db.student.update({Name:"Emilia-tan"}, {$set: {Roll: 11 }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 0 })
+> db.COE.update({Name:"Emilia-tan"}, {$set: {Roll: 11 }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.COE.update({Name:"Yukino"}, {$set: {Roll: 12 }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.COE.find()
+{ "_id" : ObjectId("60780ae37ed304f603d26992"), "Roll" : 10, "Name" : "Shreyash", "age" : 21, "Subject1" : 100, "Subject2" : 100, "Subject3" : 100, "Grade" : "S" }
+{ "_id" : ObjectId("60780afc7ed304f603d26993"), "Roll" : 11, "Name" : "Emilia-tan", "age" : 20, "Subject1" : 100, "Subject2" : 100, "Subject3" : 100, "Grade" : "S" }
+{ "_id" : ObjectId("60780b117ed304f603d26994"), "Roll" : 12, "Name" : "Yukino", "age" : 20, "Subject1" : 100, "Subject2" : 100, "Subject3" : 100, "Grade" : "S" }
+{ "_id" : ObjectId("60780b4b7ed304f603d26995"), "Roll" : 13, "Name" : "Kazuma", "age" : 21, "Subject1" : 60, "Subject2" : 50, "Subject3" : 40, "Grade" : "D" }
+> db.Faculty.insert({No:1 , Name: "Koro", age: 31, phone: 9090909090, email: "koro@bmsce.ac.in",city:"Bengaluru" })
+WriteResult({ "nInserted" : 1 })
+> db.Faculty.insert({No:0 , Name: "Saitama", age: 27, phone: 1190909090, email: "saitama@bmsce.ac.in",city:"Bengaluru" })
+WriteResult({ "nInserted" : 1 })
+> db.Faculty.insert({No:3 , Name: "Kakashi", age: 28, phone: 6990402000, email: "kakashi@bmsce.ac.in",city:"Bengaluru" })
+WriteResult({ "nInserted" : 1 })
+> db.Faculty.find()
+{ "_id" : ObjectId("60780c557ed304f603d26996"), "No" : 1, "Name" : "Koro", "age" : 31, "phone" : 9090909090, "email" : "koro@bmsce.ac.in", "city" : "Bengaluru" }
+{ "_id" : ObjectId("60780c747ed304f603d26997"), "No" : 0, "Name" : "Saitama", "age" : 27, "phone" : 1190909090, "email" : "saitama@bmsce.ac.in", "city" : "Bengaluru" }
+{ "_id" : ObjectId("60780ca37ed304f603d26998"), "No" : 3, "Name" : "Kakashi", "age" : 28, "phone" : 6990402000, "email" : "kakashi@bmsce.ac.in", "city" : "Bengaluru" }
+> db.Library.insert({isn: 1, name: "Mocking bird", department: "Literature", price: 250, quantity: 20, borrowed: 10})
+WriteResult({ "nInserted" : 1 })
+> db.Library.insert({isn: 2, name: "Naruto", department: "Literature", price: 250, quantity: 20, borrowed: 10})
+WriteResult({ "nInserted" : 1 })
+> db.Library.insert({isn: 2, name: "SAO VR", department: "PG", price: 1250, quantity: 2, borrowed: 1})
+WriteResult({ "nInserted" : 1 })
+> db.Library.find()
+{ "_id" : ObjectId("60780d2e7ed304f603d26999"), "isn" : 1, "name" : "Mocking bird", "department" : "Literature", "price" : 250, "quantity" : 20, "borrowed" : 10 }
+{ "_id" : ObjectId("60780d3f7ed304f603d2699a"), "isn" : 2, "name" : "Naruto", "department" : "Literature", "price" : 250, "quantity" : 20, "borrowed" : 10 }
+{ "_id" : ObjectId("60780d717ed304f603d2699b"), "isn" : 2, "name" : "SAO VR", "department" : "PG", "price" : 1250, "quantity" : 2, "borrowed" : 1 }
+> db.Admission.insert({usn:1, name:"Shreyash", bday:"22/2/2000",email:sa@gmail.com, rank:101, fees:100000 })
+uncaught exception: SyntaxError: illegal character :
+@(shell):1:70
+> db.Admission.insert({usn:1, name:"Shreyash", bday:"22/2/2000",email:"sa@gmail.com", rank:101, fees:100000 })
+WriteResult({ "nInserted" : 1 })
+> db.Admission.insert({usn:2, name:"Emilia-tan", bday:"23/9/2000",email:"em@gmail.com", rank:100, fees:120000 })
+WriteResult({ "nInserted" : 1 })
+> db.Admission.insert({usn:3, name:"Yukino", bday:"3/1/2001",email:"yukino@gmail.com", rank:109, fees:110000 })
+WriteResult({ "nInserted" : 1 })
+> db.Admission.insert({usn:4, name:"Kazuma", bday:"7/6/2000",email:"kazuma@gmail.com", rank:10900, fees:110000 })
+WriteResult({ "nInserted" : 1 })
+> db.Admission.find()
+{ "_id" : ObjectId("60780eab7ed304f603d2699c"), "usn" : 1, "name" : "Shreyash", "bday" : "22/2/2000", "email" : "sa@gmail.com", "rank" : 101, "fees" : 100000 }
+{ "_id" : ObjectId("60780ed07ed304f603d2699d"), "usn" : 2, "name" : "Emilia-tan", "bday" : "23/9/2000", "email" : "em@gmail.com", "rank" : 100, "fees" : 120000 }
+{ "_id" : ObjectId("60780f087ed304f603d2699e"), "usn" : 3, "name" : "Yukino", "bday" : "3/1/2001", "email" : "yukino@gmail.com", "rank" : 109, "fees" : 110000 }
+{ "_id" : ObjectId("60780f927ed304f603d2699f"), "usn" : 4, "name" : "Kazuma", "bday" : "7/6/2000", "email" : "kazuma@gmail.com", "rank" : 10900, "fees" : 110000 }
+> db.College Festival.insert{(no: 1, name: "chairs", type: "equipment", quantity:100, accomodated:70, venue: "auditorium" )}
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:11
+> db.CollegeFestival.insert{(no: 1, name: "chairs", type: "equipment", quantity:100, accomodated:70, venue: "auditorium" )}
+uncaught exception: SyntaxError: unexpected token: '{' :
+@(shell):1:25
+> db.College Festival.insert({no: 1, name: "chairs", type: "equipment", quantity:100, accomodated:70, venue: "auditorium" })
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:11
+> db.College.Festival.insert({no: 1, name: "chairs", type: "equipment", quantity:100, accomodated:70, venue: "auditorium" })
+WriteResult({ "nInserted" : 1 })
+> db.College.Festival.insert({no: 2, name: "ladders", type: "equipment", quantity:15, accomodated:10, venue: "auditorium" })
+WriteResult({ "nInserted" : 1 })
+> db.College.Festival.insert({no: 2, name: "Lighting", type: "equipment", quantity:30, accomodated:20, venue: "field" })
+WriteResult({ "nInserted" : 1 })
+> db.College.Festival.find()
+{ "_id" : ObjectId("6078112d7ed304f603d269a0"), "no" : 1, "name" : "chairs", "type" : "equipment", "quantity" : 100, "accomodated" : 70, "venue" : "auditorium" }
+{ "_id" : ObjectId("607811a87ed304f603d269a1"), "no" : 2, "name" : "ladders", "type" : "equipment", "quantity" : 15, "accomodated" : 10, "venue" : "auditorium" }
+{ "_id" : ObjectId("607811c27ed304f603d269a2"), "no" : 2, "name" : "Lighting", "type" : "equipment", "quantity" : 30, "accomodated" : 20, "venue" : "field" }
+>
