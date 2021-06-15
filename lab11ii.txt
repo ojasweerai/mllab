@@ -1,0 +1,102 @@
+In [1]:
+from numpy import *
+from os import listdir
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np1
+import numpy.linalg as np
+from scipy.stats.stats import pearsonr
+ 
+def kernel(point,xmat, k):
+    m,n = np1.shape(xmat)
+    weights = np1.mat(np1.eye((m)))
+    for j in range(m):
+        diff = point - X[j]
+        weights[j,j] = np1.exp(diff*diff.T/(-2.0*k**2))
+    return weights
+ 
+def localWeight(point,xmat,ymat,k):
+    wei = kernel(point,xmat,k)
+    W = (X.T*(wei*X)).I*(X.T*(wei*ymat.T))
+    return W
+     
+def localWeightRegression(xmat,ymat,k):
+    m,n = np1.shape(xmat)
+    ypred = np1.zeros(m)
+    for i in range(m):
+        ypred[i] = xmat[i]*localWeight(xmat[i],xmat,ymat,k)
+    return ypred
+       
+# load data points
+data = pd.read_csv('tips.csv')
+bill = np1.array(data.total_bill)
+tip = np1.array(data.tip)
+ 
+#preparing and add 1 in bill
+mbill = np1.mat(bill)
+mtip = np1.mat(tip) # mat is used to convert to n dimesiona to 2 dimensional array form
+m= np1.shape(mbill)[1]
+# print(m) 244 data is stored in m
+one = np1.mat(np1.ones(m)) 
+X= np1.hstack((one.T,mbill.T)) # create a stack of bill from ONE
+#print(X)
+#set k here
+ypred = localWeightRegression(X,mtip,0.3) 
+SortIndex = X[:,1].argsort(0)
+xsort = X[SortIndex][:,0]
+     
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+ax.scatter(bill,tip, color='green')
+ax.plot(xsort[:,1],ypred[SortIndex], color = 'red', linewidth=5)
+plt.xlabel('Total bill')
+plt.ylabel('Tip')
+plt.show();
+---------------------------------------------------------------------------
+LinAlgError                               Traceback (most recent call last)
+<ipython-input-1-ea6b2d78e5c2> in <module>
+     42 #print(X)
+     43 #set k here
+---> 44 ypred = localWeightRegression(X,mtip,0.3)
+     45 SortIndex = X[:,1].argsort(0)
+     46 xsort = X[SortIndex][:,0]
+
+<ipython-input-1-ea6b2d78e5c2> in localWeightRegression(xmat, ymat, k)
+     25     ypred = np1.zeros(m)
+     26     for i in range(m):
+---> 27         ypred[i] = xmat[i]*localWeight(xmat[i],xmat,ymat,k)
+     28     return ypred
+     29 
+
+<ipython-input-1-ea6b2d78e5c2> in localWeight(point, xmat, ymat, k)
+     18 def localWeight(point,xmat,ymat,k):
+     19     wei = kernel(point,xmat,k)
+---> 20     W = (X.T*(wei*X)).I*(X.T*(wei*ymat.T))
+     21     return W
+     22 
+
+D:\anapy\lib\site-packages\numpy\matrixlib\defmatrix.py in I(self)
+    833         else:
+    834             from numpy.linalg import pinv as func
+--> 835         return asmatrix(func(self))
+    836 
+    837     @property
+
+<__array_function__ internals> in inv(*args, **kwargs)
+
+D:\anapy\lib\site-packages\numpy\linalg\linalg.py in inv(a)
+    543     signature = 'D->D' if isComplexType(t) else 'd->d'
+    544     extobj = get_linalg_error_extobj(_raise_linalgerror_singular)
+--> 545     ainv = _umath_linalg.inv(a, signature=signature, extobj=extobj)
+    546     return wrap(ainv.astype(result_t, copy=False))
+    547 
+
+D:\anapy\lib\site-packages\numpy\linalg\linalg.py in _raise_linalgerror_singular(err, flag)
+     86 
+     87 def _raise_linalgerror_singular(err, flag):
+---> 88     raise LinAlgError("Singular matrix")
+     89 
+     90 def _raise_linalgerror_nonposdef(err, flag):
+
+LinAlgError: Singular matrix
